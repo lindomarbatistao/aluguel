@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from .models import (Usuario, Imovel, Contrato, Pagamento)
 from .serializers import (UsuarioSerializer, ImovelSerializer,
     ContratoSerializer, PagamentoSerializer)
+
 from .filters import UsuarioFilter, ImovelFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
