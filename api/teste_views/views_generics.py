@@ -3,14 +3,14 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView
 )
 
-from .models import (
+from ..models import (
     Usuario,
     Imovel,
     Contrato,
     Pagamento
 )
 
-from .serializers import (
+from ..serializers import (
     UsuarioSerializer,
     ImovelSerializer,
     ContratoSerializer,
