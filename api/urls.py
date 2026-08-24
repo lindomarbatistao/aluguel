@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views_viewset import *
+from .views import *
 
 router = DefaultRouter()
 
@@ -16,8 +16,8 @@ router.register("pagamentos", PagamentoViewSet, basename="pagamentos")
 
 
 urlpatterns = [
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     path("viewset/", include(router.urls)),
 ]
