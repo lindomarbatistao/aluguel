@@ -6,6 +6,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import *
+from .importar import UsuariosTeste
 
 router = DefaultRouter()
 
@@ -16,6 +17,8 @@ router.register("pagamentos", PagamentoViewSet, basename="pagamentos")
 
 
 urlpatterns = [
+    path('teste', UsuariosTeste.as_view() ),
+    
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
