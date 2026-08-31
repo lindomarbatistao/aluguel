@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from openpyxl import load_workbook
 from rest_framework.response import Response
 from .models import *
+from rest_framework import status
 
 class ImportarUsuarios(APIView):
     
@@ -44,7 +45,17 @@ class ImportarUsuarios(APIView):
                 is_active=is_active,
                 password=senha_teste,
             )
-        
-        
-        
-        return Response({"mensagem":"Planilha lida com sucesso!"})
+            
+            usuario.set_password(senha_teste)
+
+            usuario.save()
+            
+            criados += 1
+            
+        return Response(
+            {
+                "mensagem":"Planilha lida com sucesso!",
+                "criados":criados,
+                "ignorados": ignorados
+            }, status=status.HTTP_201_CREATED
+            )
