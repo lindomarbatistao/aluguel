@@ -59,3 +59,55 @@ class ImportarUsuarios(APIView):
                 "ignorados": ignorados
             }, status=status.HTTP_201_CREATED
             )
+        
+class ImportarImoveis(APIView):
+    def post(self, request):
+        arquivo = request.FILES.get("file")
+        planilha = load_workbook(arquivo)
+        pagina = planilha["Imoveis"]
+        criados = 0
+        ignorados = 0
+        
+        for coluna in pagina.iter_rows(
+            min_row=2,
+            values_only=True
+        ):
+            title = coluna[0]
+            type = coluna[1]
+            rent_value = coluna[2]
+            status = coluna[3]
+            street_address = coluna[4]
+            cep = coluna[5]
+            complement = coluna[6]
+            neighborhood = coluna[7]
+            city = coluna[8]
+            uf = coluna[9]
+
+            if Imovel.objects.filter(titulo=title).exists():
+                ignorados += 1
+                continue
+            
+            imovel = Imovel(
+                titulo = title,
+                tipo = type,
+                valor_aluguel = rent_value,
+                status = status,
+                logradouro = street_address,
+                cep = cep,
+                complemento = complement,
+                bairro = neighborhood,
+                cidade = city,
+                uf = uf
+            )
+            
+            imovel.save()
+            criados += 1
+            
+        return Response(
+            {
+                "mensagem":"Planilha lida com sucesso!",
+                "criados":criados,
+                "ignorados": ignorados
+            }
+            )
+            
